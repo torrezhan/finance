@@ -21,6 +21,23 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
+    // Get one by id
+    public Transaction getTransactionById(Long id) {
+        return transactionRepository.findById(id).orElse(null);
+    }
+
+    // Update by id
+    public Transaction updateTransaction(Long id, Transaction updated) {
+        return transactionRepository.findById(id).map(transaction -> {
+            transaction.setAmount(updated.getAmount());
+            transaction.setDescription(updated.getDescription());
+            transaction.setDate(updated.getDate());
+            transaction.setUser(updated.getUser());
+            // Add other fields as necessary
+            return transactionRepository.save(transaction);
+        }).orElse(null);
+    }
+
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
     }

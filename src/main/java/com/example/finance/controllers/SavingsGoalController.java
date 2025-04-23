@@ -24,4 +24,33 @@ public class SavingsGoalController {
     public ResponseEntity<SavingsGoal> createSavingsGoal(@RequestBody SavingsGoal goal) {
         return ResponseEntity.ok(savingsGoalService.createSavingsGoal(goal));
     }
+
+    // List all
+    @GetMapping
+    public ResponseEntity<List<SavingsGoal>> getAllSavingsGoals() {
+        return ResponseEntity.ok(savingsGoalService.getAllSavingsGoals());
+    }
+
+    // Get one by id
+    @GetMapping("/{id}")
+    public ResponseEntity<SavingsGoal> getSavingsGoalById(@PathVariable Long id) {
+        SavingsGoal goal = savingsGoalService.getSavingsGoalById(id);
+        if (goal != null) return ResponseEntity.ok(goal);
+        return ResponseEntity.notFound().build();
+    }
+
+    // Update
+    @PutMapping("/{id}")
+    public ResponseEntity<SavingsGoal> updateSavingsGoal(@PathVariable Long id, @RequestBody SavingsGoal goal) {
+        SavingsGoal updated = savingsGoalService.updateSavingsGoal(id, goal);
+        if (updated != null) return ResponseEntity.ok(updated);
+        return ResponseEntity.notFound().build();
+    }
+
+    // Delete
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSavingsGoal(@PathVariable Long id) {
+        if (savingsGoalService.deleteSavingsGoal(id)) return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
+    }
 }

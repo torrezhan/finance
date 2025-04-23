@@ -20,4 +20,34 @@ public class IncomeService {
     public Income createIncome(Income income) {
         return incomeRepository.save(income);
     }
+
+    // List all Incomes
+    public List<Income> getAllIncome() {
+        return incomeRepository.findAll();
+    }
+
+    // Get one by id
+    public Income getIncomeById(Long id) {
+        return incomeRepository.findById(id).orElse(null);
+    }
+
+    // Update by id
+    public Income updateIncome(Long id, Income updated) {
+        return incomeRepository.findById(id).map(income -> {
+            income.setAmount(updated.getAmount());
+            income.setDescription(updated.getDescription());
+            income.setUser(updated.getUser());
+            // Add additional fields as needed
+            return incomeRepository.save(income);
+        }).orElse(null);
+    }
+
+    // Delete by id
+    public boolean deleteIncome(Long id) {
+        if (incomeRepository.existsById(id)) {
+            incomeRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

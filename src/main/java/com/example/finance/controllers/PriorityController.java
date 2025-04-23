@@ -15,6 +15,35 @@ public class PriorityController {
         this.priorityService = priorityService;
     }
 
+    // List all Priorities
+    @GetMapping
+    public ResponseEntity<List<Priority>> getAllPriorities() {
+        return ResponseEntity.ok(priorityService.getAllPriorities());
+    }
+
+    // Get single Priority by id
+    @GetMapping("/{id}")
+    public ResponseEntity<Priority> getPriorityById(@PathVariable Long id) {
+        Priority priority = priorityService.getPriorityById(id);
+        if (priority != null) return ResponseEntity.ok(priority);
+        return ResponseEntity.notFound().build();
+    }
+
+    // Update Priority by id
+    @PutMapping("/{id}")
+    public ResponseEntity<Priority> updatePriority(@PathVariable Long id, @RequestBody Priority priority) {
+        Priority updated = priorityService.updatePriority(id, priority);
+        if (updated != null) return ResponseEntity.ok(updated);
+        return ResponseEntity.notFound().build();
+    }
+
+    // Delete Priority by id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePriority(@PathVariable Long id) {
+        if (priorityService.deletePriority(id)) return ResponseEntity.noContent().build();
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Priority>> getPriorities(@PathVariable Long userId) {
         return ResponseEntity.ok(priorityService.getPrioritiesByUser(userId));
